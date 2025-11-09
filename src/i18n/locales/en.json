@@ -69,6 +69,66 @@
     },
     "cta": {
       "editInputs": "Edit My Inputs"
+    },
+    "methodology": {
+      "button": "How is this calculated?",
+      "buttonTitle": "Learn about our calculation methodology",
+      "buttonPrompt": "How is this calculated?",
+      "title": "How Is This Calculated?",
+      "closeButton": "Got it",
+      "intro": "Our calculator uses a \"same money in, see who ends up richer\" approach to ensure a fair comparison between buying and renting.",
+      "corePrinciple": {
+        "title": "Core Principle",
+        "description": "Both scenarios assume the same total cash outflow. When one option costs less in a given year, the savings are automatically invested. This captures the true opportunity cost of each decision."
+      },
+      "howItWorks": {
+        "title": "How It Works",
+        "step1": {
+          "title": "Track All Cash Outflows",
+          "description": "We calculate every dollar you spend in both scenarios:",
+          "buyItems": "Buy: Down payment, closing costs, mortgage payments (principal + interest), property taxes, insurance, maintenance, HOA fees",
+          "rentItems": "Rent: Monthly rent payments"
+        },
+        "step2": {
+          "title": "Invest the Difference",
+          "description": "Each year, whichever option costs less gets to invest the difference. This ensures both paths spend the same total amount, allowing for a fair comparison of final outcomes."
+        },
+        "step3": {
+          "title": "Calculate Final Net Worth",
+          "description": "At the end of your chosen time horizon, we calculate your net worth for each scenario: property value minus mortgage balance (plus any investments) for buying, and investment portfolio value for renting. Both values account for applicable taxes."
+        }
+      },
+      "example": {
+        "title": "Quick Example",
+        "year1": {
+          "label": "Year 1:",
+          "buy": "Buy: $100k down payment + $10k closing + $30k mortgage + $10k holding = $150k",
+          "rent": "Rent: $24k annual rent = $24k",
+          "result": "→ Rent scenario invests the $126k difference"
+        },
+        "laterYears": {
+          "label": "Later Years:",
+          "description": "If buying costs $40k/year but renting costs $30k/year, the rent scenario invests that $10k difference each year. If renting ever costs more, then buying gets to invest the difference instead."
+        }
+      },
+      "whatsIncluded": {
+        "title": "What's Included in the Calculation?",
+        "description": "All costs flow through to the final comparison via the differential investment mechanism:",
+        "items": {
+          "mortgagePayments": "Mortgage payments (principal + interest)",
+          "propertyTaxes": "Property taxes",
+          "insurance": "Insurance & maintenance",
+          "maintenance": "HOA fees and other holding costs",
+          "closingCosts": "Closing costs and selling costs",
+          "taxBenefits": "Tax benefits (mortgage interest deduction)",
+          "capitalGains": "Capital gains taxes (property & investments)",
+          "sellingCosts": "Transaction costs (buying & selling)"
+        }
+      },
+      "keyTakeaway": {
+        "title": "Key Takeaway",
+        "description": "The \"Net Worth Projection\" shows your final wealth under a \"same money in\" constraint. All spending (interest, taxes, holding costs) is fully accounted for through the investment of cost differences. You're seeing which option builds more wealth when you spend the same total amount."
+      }
     }
   },
   "inputs": {

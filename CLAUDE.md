@@ -4,42 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a buy vs rent calculator web application that helps users compare long-term net-worth outcomes between buying a home and renting while investing the savings. The app is 100% client-side with no backend required for the MVP.
+A production-ready buy vs rent calculator that helps users compare long-term net-worth outcomes between buying a home and renting while investing the savings. The app is 100% client-side (no backend), deployed on Vercel at [rent-or-buy.homes](https://rent-or-buy.homes).
 
-## Implementation Progress Summary
+## Current Implementation Status
 
-### ✅ Completed Components
+**The application is feature-complete and production-ready.** All major features are implemented:
 
-- **Core Architecture**: React Context state management with TypeScript
-- **App State Management**: Complete AppContext with buy/rent inputs, calculations, and settings
-- **Financial Engine**: Comprehensive calculation functions for mortgage, investments, and tax scenarios
-- **Input Components**: Fully functional input panels with sliders, buttons, and number inputs
-- **Header Component**: Language selector and branding
-- **Hero Section**: Main conclusion display with time horizon selector, net worth breakdown cards, and CTA buttons
-- **Debug Panel**: Development tool for testing calculations and state
-- **Result Panel**: Charts, visualizations, and summary cards
-- **URL Synchronization**: Shareable links with state persistence
-- **Advanced Input Sections**: Some advanced tax and cost inputs
-- **City Defaults**: Pre-configured settings for different markets
+- ✅ **Complete UI/UX**: Full responsive design with all input panels, charts, and visualizations
+- ✅ **Financial Engine**: Sophisticated calculations with mortgage amortization, tax optimization, and investment projections
+- ✅ **Internationalization**: Full English/Chinese support via i18next with browser language detection
+- ✅ **URL State Sync**: Shareable links with LZ-compressed state parameters
+- ✅ **Charts & Visualizations**: ApexCharts integration for net worth and cash outflow projections
+- ✅ **City Presets**: Pre-configured market data for major US cities
+- ✅ **Analytics**: Vercel Analytics integration
 
-### 🚧 In Progress / Needs Implementation
+### Future Enhancements
 
-- **Internationalization**: i18next integration for multi-language support
-
-### 📋 Current State
-
-The application has a solid foundation with:
-
-- ✅ Complete state management architecture
-- ✅ Sophisticated financial calculation engine
-- ✅ Professional input UI components
-- ✅ Hero section with conclusions and net worth breakdown
-- ✅ TypeScript types for all data structures
-- ✅ Results visualization (charts/graphs)
-- ✅ URL state persistence
-- ❌ Chinese language support
-
-**Target UI**: Complete mockup available in `UI_mockup/UI_1.html` showing the intended final design
+- [ ] PDF export functionality for detailed reports
+- [ ] Additional chart types for advanced financial projections
+- [ ] More city presets and regional data
 
 ## Development Commands
 
@@ -55,107 +38,156 @@ The application has a solid foundation with:
 - **React 19** with **TypeScript** - Component framework with strict typing
 - **Vite** - Build tool and development server
 - **Tailwind CSS** - Utility-first styling framework
-- **ESLint** - Code linting with React-specific rules
+- **ApexCharts** - Interactive charting library
+- **React Router v7** - Client-side routing
+- **i18next** - Internationalization framework with browser language detection
+- **LZ-String** - URL compression for shareable state
 
-### Key Dependencies (Planned)
-
-- `react-router-dom` - Client-side routing and URL synchronization
-- `i18next` + `react-i18next` - Internationalization (English/Chinese)
-- `lz-string` - URL compression for shareable links
-- Chart library (TBD) - For financial projections visualization
-
-### Implemented Architecture
+### Architecture Overview
 
 ```
 ┌──────────────┐     state updates      ┌──────────────┐
 │  InputPanel  │ ────────────────────►  │   AppContext │
-│   (Complete) │                        │  (Complete)  │
+│              │                        │  (useReducer)│
 └──────────────┘                        └───────┬──────┘
                                                 │
                                                 ▼
 ┌──────────────┐                        ┌──────────────┐
-│   URLSync    │                        │ ResultPanel  │
-│(Not Impl.)   │                        │(Not Impl.)   │
+│   URLSync    │◄─── history.replace ───│ HeroSection  │
+│   Hook       │                        │ ResultPanel  │
 └──────────────┘                        └──────────────┘
 ```
 
-## Current Project Structure
+**Key Architectural Decisions:**
+
+- **State Management**: Centralized via React Context with `useReducer` for predictable updates
+- **Calculations**: Pure TypeScript functions in `src/lib/finance/` - no side effects, easy to test
+- **URL Sync**: Automatic bidirectional sync between app state and URL parameters using `useURLSync` hook
+- **i18n Integration**: Language state managed in AppContext, synced with i18next on language changes
+
+## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── Header/          ✅ Implemented
-│   ├── InputPanel/      ✅ Implemented (Buy + Rent inputs)
-│   │   ├── BuyInputs.tsx
-│   │   ├── RentInputs.tsx
-│   │   └── shared/      ✅ Reusable UI components
-│   ├── DebugPanel/      ✅ Development tool
-│   ├── HeroSection/     ✅ Complete with all sub-components
-│   ├── ResultPanel/     ❌ Not implemented
-│   └── Footer/          ❌ Not implemented
+│   ├── Header/               - Language selector and branding
+│   ├── HeroSection/          - Time horizon selector, conclusion badge, net worth cards
+│   ├── InputPanel/           - Buy/Rent scenario inputs with shared UI components
+│   │   ├── shared/           - SliderInput, NumberInput, ButtonGroup
+│   │   ├── BuyInputs.tsx     - Property purchase parameters
+│   │   └── RentInputs.tsx    - Rental and investment parameters
+│   ├── ResultPanel/          - Charts and visualizations
+│   │   ├── NetWorthChart.tsx - ApexCharts line chart for net worth projection
+│   │   └── CashOutflowChart.tsx - ApexCharts bar chart for cash flow analysis
+│   ├── ShareButton/          - URL generation for sharing calculator state
+│   ├── DebugPanel/           - Development tool (toggled via URL ?debug=1)
+│   └── Footer/               - Legal disclaimers and links
 ├── lib/
-│   ├── finance/         ✅ Complete calculation engine
-│   │   ├── calculations.ts  ✅ All financial formulas
-│   │   ├── types.ts         ✅ Calculation data types
-│   │   └── index.ts
-│   ├── constants.ts     ✅ Investment options, tax rates
-│   └── inputUtils.ts    ✅ Input validation helpers
+│   ├── finance/              - Core calculation engine
+│   │   ├── calculations.ts   - Pure functions for mortgage, tax, investment math
+│   │   └── types.ts          - TypeScript interfaces for financial data
+│   ├── constants.ts          - Investment presets, tax brackets, defaults
+│   ├── inputUtils.ts         - Input validation and formatting utilities
+│   ├── urlSync.ts            - LZ-string compression/decompression for URL state
+│   └── design-system.ts      - Tailwind CSS utility classes and theme constants
 ├── contexts/
-│   └── AppContext.tsx   ✅ Complete state management
+│   └── AppContext.tsx        - Global state management with useReducer
 ├── data/
-│   └── cityDefaults.ts  ✅ Market-specific presets
+│   └── cityDefaults.ts       - Market-specific presets (Seattle, SF, LA, etc.)
 ├── hooks/
-│   ├── useCalculations.ts ✅ Calculation integration
-│   └── useURLSync.ts      ❌ Not implemented
-├── App.tsx              ✅ Main layout structure
-├── index.css           ✅ Tailwind setup
-└── main.tsx            ✅ React 19 setup
+│   ├── useCalculations.ts    - Hook that orchestrates financial calculations
+│   ├── useURLSync.ts         - Bidirectional URL ↔ state synchronization
+│   └── useDebugMode.ts       - Debug panel toggle logic
+├── locales/                  - i18next translation files (en/zh)
+├── App.tsx                   - Main layout and component orchestration
+└── i18n.ts                   - i18next configuration
 ```
 
-## Financial Calculation Features
+## Financial Calculation Engine
 
-### ✅ Implemented Calculations
+The core calculation logic is in `src/lib/finance/calculations.ts`. All functions are pure (no side effects) for testability.
 
-- **Mortgage Amortization**: PMT formula with full amortization schedule
-- **Property Appreciation**: Compound annual growth with customizable rates
-- **Investment Growth**: Portfolio growth with reinvestment of cash flow differences
-- **Tax Calculations**:
-  - Mortgage interest deduction
-  - Property capital gains (with exemptions)
-  - Investment capital gains
-  - Different rates by filing status
-- **Cash Flow Analysis**: Detailed year-by-year cash outflows
-- **Net Worth Projections**: Both liquid (cash-out) and illiquid scenarios
+### Key Calculations
 
-### 🔧 Key Calculation Logic
+**Mortgage Amortization** (`calculateMonthlyPayment`, `buildAmortizationSchedule`)
+- Standard PMT formula for monthly payment calculation
+- Full amortization schedule with principal/interest breakdown per payment
+- Handles scenarios where loan is paid off before projection horizon
 
-- Handles mortgage payoff scenarios (loan paid before projection end)
-- Differential cash flow investment (when one scenario costs more, difference is invested)
-- Advanced tax scenarios including filing status and exemption amounts
-- Realistic holding costs (property tax, insurance, maintenance, HOA)
-- Transaction costs (closing costs, selling costs)
+**Property Appreciation** (`calculatePropertyAppreciation`)
+- Compound annual growth: `FV = PV × (1 + r)^n`
+- Customizable appreciation rates
 
-## Next Implementation Priorities
+**Investment Growth** (`calculateInvestmentReturns`)
+- Portfolio growth with annual contributions (differential cash flow between scenarios)
+- Compound returns with reinvestment
 
-1. **Result Panel Components** - Charts and summary visualizations
-2. **URL State Sync** - Shareable links with compressed parameters
-3. **Chart Integration** - Financial projection visualizations (ApexCharts or similar)
-4. **Internationalization** - Multi-language support structure
-5. **Footer Component** - Legal disclaimers and additional links
+**Tax Calculations**
+- Mortgage interest deduction (itemized vs. standard deduction comparison)
+- Property capital gains with $250k/$500k exemptions (single/married filing)
+- Investment capital gains (long-term vs. short-term rates)
+- Different marginal tax rates by filing status
 
-## Configuration Files
+**Cash Flow & Net Worth**
+- Year-by-year cash outflow tracking for both scenarios
+- Final net worth calculation includes:
+  - Property value minus remaining mortgage balance and selling costs
+  - Investment portfolio value minus capital gains tax
+- "Same money in" principle: when one scenario costs less in a year, the difference is invested
 
-- `vite.config.ts` - Vite configuration with React plugin
-- `tailwind.config.js` - Tailwind CSS setup for TypeScript files
-- `eslint.config.js` - ESLint with TypeScript and React rules
-- `tsconfig.json` - TypeScript project references setup
-- `postcss.config.js` - PostCSS configuration for Tailwind
+### Calculation Reference
 
-## Important Implementation Notes
+An Excel version of the calculator is available at `reference/validate.xlsx` for manual validation of calculation logic.
 
-- **State Management**: Fully implemented with React Context and useReducer
-- **Type Safety**: Complete TypeScript coverage for all data structures
-- **Financial Accuracy**: Sophisticated calculation engine matching real-world scenarios
-- **Component Architecture**: Reusable input components with proper abstractions
-- **Responsive Design**: Mobile-first Tailwind CSS approach
-- **Performance**: Pure calculation functions for easy testing and optimization
+## Important Implementation Details
+
+### State Management Pattern
+
+The app uses a centralized state management pattern via `AppContext`:
+
+```typescript
+// State is managed via useReducer with action-based updates
+const { state, dispatch } = useApp();
+
+// Update patterns:
+updateBuyInput(field, value)    // Buy scenario inputs
+updateRentInput(field, value)   // Rent scenario inputs
+updateAppSetting(field, value)  // App-level settings (time horizon, language)
+```
+
+All calculations are derived from state in `useCalculations` hook, not stored in state themselves. This ensures calculations always reflect current inputs.
+
+### URL Synchronization Pattern
+
+`useURLSync` hook provides bidirectional sync:
+- **State → URL**: Whenever state changes, URL is updated via `history.replaceState`
+- **URL → State**: On mount, URL params are parsed and applied to state
+- Compression via `lz-string` keeps URLs shareable despite large state objects
+
+### Internationalization Pattern
+
+- Translation files in `src/locales/en/` and `src/locales/zh/`
+- Language state stored in `AppContext.appSettings.currentLanguage`
+- Browser language detection via `i18next-browser-languagedetector`
+- Sync i18n with app state on language changes in `App.tsx`
+
+### Debug Mode
+
+Access debug panel by adding `?debug=1` to URL. Shows:
+- Full app state (inputs, calculations, settings)
+- Useful for development and troubleshooting user-reported issues
+
+### City Presets
+
+`src/data/cityDefaults.ts` contains market-specific defaults:
+- Home prices, rent amounts, property tax rates
+- Data sourced from CRMLS and other regional MLS systems
+- Applied via city selector in HeroSection
+
+## Key Files to Understand
+
+1. **`src/contexts/AppContext.tsx`** - Global state shape and reducer logic
+2. **`src/lib/finance/calculations.ts`** - All financial calculation formulas
+3. **`src/hooks/useCalculations.ts`** - Orchestrates calculations from state
+4. **`src/lib/urlSync.ts`** - URL compression/decompression logic
+5. **`src/data/cityDefaults.ts`** - City-specific market data
