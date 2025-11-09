@@ -149,12 +149,12 @@ export function calculateBuyScenarioForYear(
   const hoaFee = buyInputs.hoaFeeAnnual;
   const totalHoldingCosts = propertyTax + insuranceAndMaintenance + hoaFee;
   
-  // Mortgage payments
-  const annualMortgagePayment = preliminary.mortgage.monthlyPayment * 12;
-  
+  // Mortgage payments (use actual annual payments from schedule, which will be 0 after loan is paid off)
+  const annualMortgagePayment = mortgageBreakdown.annualInterestPaid + mortgageBreakdown.annualPrincipalPaid;
+
   // Tax savings from mortgage interest deduction
-  const taxSavingsFromDeduction = buyInputs.mortgageInterestDeduction 
-    ? mortgageBreakdown.annualInterestPaid * buyInputs.marginalTaxRate / 100 
+  const taxSavingsFromDeduction = buyInputs.mortgageInterestDeduction
+    ? mortgageBreakdown.annualInterestPaid * buyInputs.marginalTaxRate / 100
     : 0;
   
   // Cash outflow calculation
