@@ -19,7 +19,48 @@ export const cityDefaults: CityDefault[] = [
       currentMonthlyRentAmount: 6000,
       homeAppreciationCagr: 3.5,
     },
-  },
+  },{
+  id: "washington_dc",
+  name: "Washington, DC",
+  data: {
+    propertyPrice: 850000,
+    downPaymentPercentage: 25,
+    mortgageInterestRateAnnual: 6.75,
+    propertyTaxRateAnnual: 0.85,
+    currentMonthlyRentAmount: 3000,
+    homeAppreciationCagr: 4.0,
+    rentGrowthRateAnnual: 3.0,
+    sameAsHomeAppreciation: false
+  }
+},
+{
+  id: "mclean_va",
+  name: "McLean, VA",
+  data: {
+    propertyPrice: 1200000,
+    downPaymentPercentage: 25,
+    mortgageInterestRateAnnual: 6.75,
+    propertyTaxRateAnnual: 1.0,
+    currentMonthlyRentAmount: 3500,
+    homeAppreciationCagr: 4.5,
+    rentGrowthRateAnnual: 3.5,
+    sameAsHomeAppreciation: false
+  }
+},
+{
+  id: "arlington_va",
+  name: "Arlington, VA",
+  data: {
+    propertyPrice: 950000,
+    downPaymentPercentage: 25,
+    mortgageInterestRateAnnual: 6.75,
+    propertyTaxRateAnnual: 1.05,
+    currentMonthlyRentAmount: 3200,
+    homeAppreciationCagr: 4.2,
+    rentGrowthRateAnnual: 3.2,
+    sameAsHomeAppreciation: false
+  }
+},
   {
     id: "bayarea",
     name: "Bay Area, CA",
