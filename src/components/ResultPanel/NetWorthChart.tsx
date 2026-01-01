@@ -63,7 +63,7 @@ export default function NetWorthChart({ className = "" }: NetWorthChartProps) {
       background: "transparent",
       fontFamily: 'Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
     },
-    colors: ['#bc8991', '#87a0b4'],
+    colors: ['#c97f8a', '#7f9fc0'],
     fill: {
       type: "gradient",
       gradient: {

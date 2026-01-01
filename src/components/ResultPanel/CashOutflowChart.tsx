@@ -110,7 +110,7 @@ export default function CashOutflowChart({ className = "" }: CashOutflowChartPro
       fontFamily: theme.typography.fontFamily.sans,
       stacked: true,
     },
-    colors: ["#bc8991", "#87a0b4", "#d3b3b9", "#a3b8c8"], 
+    colors: ["#c97f8a", "#7f9fc0", "#deb1ba", "#9fbad6"],
     plotOptions: {
       bar: {
         horizontal: false,
